@@ -1,0 +1,52 @@
+Pour migrer une machine virtuelle (VM) Linux depuis Azure vers AWS, vous pouvez utiliser **AWS Application Migration Service** (anciennement appelé CloudEndure Migration). Voici les étapes principales à suivre pour effectuer cette migration :
+
+### **Étapes pour migrer une VM Linux d'Azure vers AWS :**
+
+#### 1. **Préparer votre environnement AWS**
+   - **Créer un VPC** (Virtual Private Cloud) si ce n'est pas déjà fait. Ce VPC hébergera vos instances AWS.
+   - Configurer les **sous-réseaux**, les **groupes de sécurité** et autres ressources nécessaires dans AWS.
+
+#### 2. **S'abonner à AWS Application Migration Service**
+   - Allez sur la console AWS et activez le **AWS Application Migration Service**.
+   - Créez un rôle IAM (Identity and Access Management) avec les permissions appropriées pour permettre à AWS d’effectuer la réplication et la gestion de vos serveurs sources.
+
+#### 3. **Installer l'Agent de Réplication sur la VM Linux dans Azure**
+   - Téléchargez et installez l'**AWS Replication Agent** sur votre VM Linux Azure. 
+   - L'agent va commencer à répliquer les données du serveur source vers AWS en temps réel. Cette installation se fait généralement à travers SSH sur la VM Azure.
+
+   **Commandes pour installer l'agent** (exemple pour Linux) :
+   - Connectez-vous à votre VM Linux sur Azure via SSH.
+   - Téléchargez et installez l'agent de réplication AWS :
+     ```bash
+     sudo yum install -y aws-application-migration-agent
+     sudo service aws-application-migration-agent start
+     ```
+   - Configurez l'agent pour pointer vers votre compte AWS et le VPC cible.
+
+#### 4. **Configurer la Réplication et la Migration**
+   - Une fois l'agent installé, AWS Application Migration Service commencera à répliquer votre machine virtuelle Azure vers AWS. La réplication inclut le système d'exploitation, les applications, les données et les configurations.
+   - Vous pouvez suivre l’état de la réplication dans la console AWS Application Migration Service. Vous pouvez également configurer des options de test pour vous assurer que la migration sera réussie sans affecter la production.
+
+#### 5. **Effectuer un Test de Basculement**
+   - Avant de procéder à un basculement en production, effectuez des tests dans AWS pour vérifier que tout fonctionne correctement. Vous pourrez créer des instances de test sans impacter votre environnement Azure en production.
+   - Utilisez la console de **Application Migration Service** pour réaliser des tests dans AWS et vérifier la performance et la compatibilité des applications.
+
+#### 6. **Réaliser le Basculement vers AWS**
+   - Lorsque vous êtes prêt à effectuer la migration, vous pouvez initier le **basculement final** en production depuis la console AWS Application Migration Service. Ce basculement lancera votre VM sur AWS sous forme d'instance EC2.
+   - La migration de la VM Azure vers AWS sera alors terminée, et vos serveurs seront en ligne dans le cloud AWS.
+
+#### 7. **Configurer les Services Post-Migration**
+   - **Mettre à jour les DNS**, les configurations réseau et les autres paramètres nécessaires pour que vos applications et services soient pleinement opérationnels sur AWS.
+   - Si nécessaire, effectuez des ajustements pour optimiser les performances et la sécurité de vos instances EC2.
+
+---
+
+### **Autres outils alternatifs pour la migration**
+
+- **AWS Server Migration Service (SMS)** : Cet outil peut également être utilisé pour migrer des machines virtuelles d'Azure vers AWS, notamment pour des migrations plus simples. Il permet de gérer la réplication et la mise à jour des serveurs sans affecter leur fonctionnement.
+
+- **CloudEndure Migration** : AWS propose aussi CloudEndure pour les migrations à grande échelle. Cet outil est plus adapté aux migrations complexes, avec une prise en charge de plusieurs systèmes d’exploitation et une gestion plus fine des basculements.
+
+---
+
+En résumé, AWS Application Migration Service est une solution efficace pour migrer vos VMs Linux depuis Azure vers AWS. Il offre une migration rapide et sans interruption majeure de service, avec la possibilité de tester la configuration avant de procéder au basculement final.
