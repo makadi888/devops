@@ -1,0 +1,203 @@
+Voici une liste des commandes PowerShell les plus courantes utilisées dans Azure Cloud pour la gestion des ressources et des services. Ces commandes sont exécutées via le module **Az PowerShell**, qui est la version la plus récente du module PowerShell pour interagir avec Azure.
+
+### **1. Installation du module Az**
+Avant de commencer à utiliser les commandes PowerShell pour Azure, vous devez installer et importer le module **Az**. Si vous ne l'avez pas encore fait, voici comment procéder :
+
+```powershell
+Install-Module -Name Az -AllowClobber -Force -Scope CurrentUser
+Import-Module Az
+```
+
+### **2. Connexion à Azure**
+Pour vous connecter à votre compte Azure, utilisez la commande suivante :
+```powershell
+Connect-AzAccount
+```
+
+Cette commande vous invite à entrer vos identifiants Azure. Si vous utilisez un compte avec plusieurs abonnements, vous pouvez spécifier un abonnement particulier avec cette commande :
+```powershell
+Set-AzContext -SubscriptionId "votre-abonnement-id"
+```
+
+### **3. Gestion des abonnements**
+Lister les abonnements disponibles :
+```powershell
+Get-AzSubscription
+```
+Changer d'abonnement :
+```powershell
+Set-AzContext -SubscriptionId "ID-de-l-abonnement"
+```
+
+### **4. Gestion des ressources Azure**
+#### Créer un groupe de ressources :
+```powershell
+New-AzResourceGroup -Name "NomDuGroupe" -Location "Emplacement"
+```
+
+#### Lister les groupes de ressources :
+```powershell
+Get-AzResourceGroup
+```
+
+#### Supprimer un groupe de ressources :
+```powershell
+Remove-AzResourceGroup -Name "NomDuGroupe" -Force
+```
+
+### **5. Gestion des machines virtuelles (VM)**
+#### Créer une machine virtuelle :
+```powershell
+New-AzVM -ResourceGroupName "NomDuGroupe" -Name "NomDeLaVM" -Location "Emplacement" -Image "NomDeLImage" -Size "Standard_DS1_v2" -Credential (Get-Credential)
+```
+
+#### Lister les machines virtuelles :
+```powershell
+Get-AzVM -ResourceGroupName "NomDuGroupe"
+```
+
+#### Démarrer une machine virtuelle :
+```powershell
+Start-AzVM -ResourceGroupName "NomDuGroupe" -Name "NomDeLaVM"
+```
+
+#### Arrêter une machine virtuelle :
+```powershell
+Stop-AzVM -ResourceGroupName "NomDuGroupe" -Name "NomDeLaVM"
+```
+
+#### Supprimer une machine virtuelle :
+```powershell
+Remove-AzVM -ResourceGroupName "NomDuGroupe" -Name "NomDeLaVM" -Force
+```
+
+### **6. Gestion des réseaux virtuels (VNet)**
+#### Créer un réseau virtuel :
+```powershell
+New-AzVirtualNetwork -ResourceGroupName "NomDuGroupe" -Location "Emplacement" -Name "NomDuVNet" -AddressPrefix "10.0.0.0/16"
+```
+
+#### Lister les réseaux virtuels :
+```powershell
+Get-AzVirtualNetwork -ResourceGroupName "NomDuGroupe"
+```
+
+#### Supprimer un réseau virtuel :
+```powershell
+Remove-AzVirtualNetwork -ResourceGroupName "NomDuGroupe" -Name "NomDuVNet" -Force
+```
+
+### **7. Gestion des disques**
+#### Créer un disque managé :
+```powershell
+New-AzDisk -ResourceGroupName "NomDuGroupe" -DiskName "NomDuDisque" -DiskSizeGB 128 -Location "Emplacement" -Sku "Standard_LRS" -CreateOption Empty
+```
+
+#### Lister les disques managés :
+```powershell
+Get-AzDisk -ResourceGroupName "NomDuGroupe"
+```
+
+#### Supprimer un disque managé :
+```powershell
+Remove-AzDisk -ResourceGroupName "NomDuGroupe" -DiskName "NomDuDisque"
+```
+
+### **8. Gestion des identités et des utilisateurs (Azure AD)**
+#### Créer un utilisateur dans Azure Active Directory :
+```powershell
+New-AzADUser -DisplayName "Nom de l'Utilisateur" -UserPrincipalName "utilisateur@domaine.com" -Password "MotDePasse" -ForceChangePasswordNextSignIn $true
+```
+
+#### Lister les utilisateurs Azure AD :
+```powershell
+Get-AzADUser
+```
+
+#### Supprimer un utilisateur Azure AD :
+```powershell
+Remove-AzADUser -ObjectId "id-utilisateur"
+```
+
+### **9. Gestion des ressources de stockage**
+#### Créer un compte de stockage :
+```powershell
+New-AzStorageAccount -ResourceGroupName "NomDuGroupe" -Name "NomDuCompteDeStockage" -Location "Emplacement" -Sku "Standard_LRS" -Kind "StorageV2"
+```
+
+#### Lister les comptes de stockage :
+```powershell
+Get-AzStorageAccount -ResourceGroupName "NomDuGroupe"
+```
+
+#### Supprimer un compte de stockage :
+```powershell
+Remove-AzStorageAccount -ResourceGroupName "NomDuGroupe" -Name "NomDuCompteDeStockage"
+```
+
+### **10. Sauvegarde et récupération**
+#### Créer un coffre de sauvegarde :
+```powershell
+New-AzRecoveryServicesVault -ResourceGroupName "NomDuGroupe" -Name "NomDuCoffre" -Location "Emplacement"
+```
+
+#### Lister les coffres de récupération :
+```powershell
+Get-AzRecoveryServicesVault
+```
+
+#### Supprimer un coffre de récupération :
+```powershell
+Remove-AzRecoveryServicesVault -ResourceGroupName "NomDuGroupe" -Name "NomDuCoffre" -Force
+```
+
+### **11. Gestion des clés (Key Vault)**
+#### Créer un coffre-fort de clés :
+```powershell
+New-AzKeyVault -ResourceGroupName "NomDuGroupe" -VaultName "NomDuCoffre" -Location "Emplacement"
+```
+
+#### Lister les coffres-forts de clés :
+```powershell
+Get-AzKeyVault -ResourceGroupName "NomDuGroupe"
+```
+
+#### Supprimer un coffre-fort de clés :
+```powershell
+Remove-AzKeyVault -ResourceGroupName "NomDuGroupe" -VaultName "NomDuCoffre" -Force
+```
+
+### **12. Gestion des services Kubernetes (AKS)**
+#### Créer un cluster Kubernetes AKS :
+```powershell
+New-AzAksCluster -ResourceGroupName "NomDuGroupe" -Name "NomDuCluster" -Location "Emplacement" -KubernetesVersion "1.19.7" -NodeCount 3 -NodeVmSize "Standard_DS2_v2"
+```
+
+#### Lister les clusters AKS :
+```powershell
+Get-AzAksCluster -ResourceGroupName "NomDuGroupe"
+```
+
+#### Supprimer un cluster AKS :
+```powershell
+Remove-AzAksCluster -ResourceGroupName "NomDuGroupe" -Name "NomDuCluster"
+```
+
+### **13. Autres commandes utiles**
+#### Vérifier les ressources de souscription :
+```powershell
+Get-AzResource
+```
+
+#### Lister les régions Azure :
+```powershell
+Get-AzLocation
+```
+
+#### Obtenir des informations sur un abonnement :
+```powershell
+Get-AzSubscription -SubscriptionId "ID-de-l-abonnement"
+```
+
+### **Conclusion**
+Ces commandes PowerShell vous permettent de gérer efficacement vos ressources Azure. N'oubliez pas de vous familiariser avec la documentation officielle et de toujours tester dans un environnement sécurisé avant de déployer des changements en production.
